@@ -28,7 +28,7 @@
         .heart {
             position: absolute;
             color: rgba(255, 255, 255, 0.3);
-            font-size: 20px;
+            font-size: 40px;
             animation: float 6s ease-in-out infinite;
             pointer-events: none;
         }
@@ -180,6 +180,26 @@
             font-size: clamp(1.2rem, 4vw, 1.8rem);
         }
         
+        .love-image {
+            max-width: 300px;
+            width: 90%;
+            height: auto;
+            margin: 20px 0;
+            border-radius: 15px;
+            animation: fadeInScale 1s ease-out;
+        }
+        
+        @keyframes fadeInScale {
+            0% { 
+                transform: scale(0.8); 
+                opacity: 0; 
+            }
+            100% { 
+                transform: scale(1); 
+                opacity: 1; 
+            }
+        }
+        
         @media (max-width: 480px) {
             .container {
                 padding: 30px 20px;
@@ -210,6 +230,21 @@
     </audio>
     
     <!-- Corações flutuantes -->
+    <div class="heart">💖</div>
+    <div class="heart">💕</div>
+    <div class="heart">💗</div>
+    <div class="heart">💓</div>
+    <div class="heart">💘</div>
+    <div class="heart">💖</div>
+    <div class="heart">💕</div>
+    <div class="heart">💗</div>
+    <div class="heart">💓</div>
+    <div class="heart">💘</div>
+    <div class="heart">💖</div>
+    <div class="heart">💕</div>
+    <div class="heart">💗</div>
+    <div class="heart">💓</div>
+    <div class="heart">💘</div>
     <div class="heart">💖</div>
     <div class="heart">💕</div>
     <div class="heart">💗</div>
@@ -353,21 +388,35 @@
         }
         
         function createConfetti() {
-            const colors = ['#fd79a8', '#74b9ff', '#00b894', '#fdcb6e', '#e17055'];
+            const colors = ['#fd79a8', '#74b9ff', '#00b894', '#fdcb6e', '#e17055', '#a29bfe', '#ff7675', '#55a3ff'];
             
-            for (let i = 0; i < 50; i++) {
+            for (let i = 0; i < 120; i++) {
                 setTimeout(() => {
                     const confetti = document.createElement('div');
                     confetti.className = 'confetti';
-                    confetti.style.left = Math.random() * 100 + 'vw';
+                    confetti.style.left = Math.random() * 100 + '%';
+                    confetti.style.top = '-10px';
+                    
+                    // Tamanhos variados de quadradinhos
+                    const size = Math.random() * 6 + 4; // 4px a 10px
+                    confetti.style.width = size + 'px';
+                    confetti.style.height = size + 'px';
+                    
+                    // Cor aleatória
                     confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-                    confetti.style.animationDelay = Math.random() * 3 + 's';
+                    
+                    // Duração aleatória
+                    confetti.style.animationDuration = (Math.random() * 2 + 2.5) + 's';
+                    
                     document.body.appendChild(confetti);
                     
+                    // Remove após 4.5 segundos
                     setTimeout(() => {
-                        confetti.remove();
-                    }, 3000);
-                }, i * 100);
+                        if (document.body.contains(confetti)) {
+                            document.body.removeChild(confetti);
+                        }
+                    }, 4500);
+                }, i * 40);
             }
         }
         
