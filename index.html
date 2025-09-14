@@ -223,12 +223,8 @@
                 <button class="btn btn-yes" onclick="acceptProposal()">
                     Sim💖
                 </button>
-                <button class="btn btn-yes" onclick="tocarMusica(0)">
-                </button>
                 <button class="btn btn-no" id="noButton" onclick="moveNoButton()">
                     Não😅
-                </button>
-                <button class="btn btn-no" id="noButton" onclick="tocarMusica(1)">
                 </button>
             </div>
         </div>
@@ -251,6 +247,8 @@
         
         function moveNoButton() {
             noButtonMoved++;
+
+            playErrorSound();
             
             // Na primeira vez, definir posição absoluta
             if (noButtonMoved === 1) {
@@ -266,12 +264,12 @@
             const buttonHeight = 50; // Altura aproximada do botão
             
             // Aumentar a distância a cada tentativa
-            const baseDistance = 80 + (noButtonMoved * 30);
+            const baseDistance = 30 + (noButtonMoved * 10);
             const maxDistance = Math.min(baseDistance, 200);
             
             // Gerar ângulo aleatório
             const angle = Math.random() * 2 * Math.PI;
-            const distance = Math.random() * maxDistance + 50;
+            const distance = Math.random() * maxDistance + 30;
             
             // Calcular nova posição baseada no ângulo e distância
             const centerX = containerRect.width / 2;
@@ -346,59 +344,18 @@
             }
         }
         
-        function playErrorSound() {
-            try {
-                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-                const oscillator = audioContext.createOscillator();
-                const gainNode = audioContext.createGain();
-                
-                oscillator.connect(gainNode);
-                gainNode.connect(audioContext.destination);
-                
-                // Som de erro - frequências descendentes
-                oscillator.frequency.setValueAtTime(400, audioContext.currentTime);
-                oscillator.frequency.exponentialRampToValueAtTime(200, audioContext.currentTime + 0.3);
-                
-                oscillator.type = 'sawtooth';
-                gainNode.gain.setValueAtTime(0.2, audioContext.currentTime);
-                gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.3);
-                
-                oscillator.start(audioContext.currentTime);
-                oscillator.stop(audioContext.currentTime + 0.3);
-            } catch (error) {
-                console.log('Som de erro não disponível');
+        function tocarMusica(indice) {
+            pausarTodas();
+            var musica = document.getElementById('musica' + indice);
+            musica.play();
+        }
+
+        function pausarTodas() {
+            for (var i = 0; i < 2; i++) {
+                var musica = document.getElementById('musica' + i);
+                musica.pause();
             }
         }
-        
-        function playCelebrationSound() {
-            try {
-                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-                
-                // Criar múltiplas notas para soar como "YAAY!"
-                const notes = [
-                    { freq: 523.25, start: 0, duration: 0.2 },    // C5 - "YA"
-                    { freq: 659.25, start: 0.15, duration: 0.3 }, // E5 - "AA"  
-                    { freq: 783.99, start: 0.35, duration: 0.4 }  // G5 - "AY!"
-                ];
-                
-                notes.forEach(note => {
-                    const oscillator = audioContext.createOscillator();
-                    const gainNode = audioContext.createGain();
-                    
-                    oscillator.connect(gainNode);
-                    gainNode.connect(audioContext.destination);
-                    
-                    oscillator.frequency.setValueAtTime(note.freq, audioContext.currentTime + note.start);
-                    oscillator.type = 'sine';
-                    
-                    // Envelope para cada nota
-                    gainNode.gain.setValueAtTime(0, audioContext.currentTime + note.start);
-                    gainNode.gain.linearRampToValueAtTime(0.3, audioContext.currentTime + note.start + 0.05);
-                    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + note.start + note.duration);
-                    
-                    oscillator.start(audioContext.currentTime + note.start);
-                    oscillator.stop(audioContext.currentTime + note.start + note.duration);
-                });
                 
                 // Adicionar um som de "confete" no final
                 setTimeout(() => {
