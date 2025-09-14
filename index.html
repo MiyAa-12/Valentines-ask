@@ -217,14 +217,18 @@
         <div id="question-section">
             <h1 class="title">lolotuz💕</h1>
             <p class="subtitle">Tenho uma pergunta muito especial...</p>
-            <div class="emoji">🥰</div>
+            <div class="emoji">🤓</div>
             <p class="question responsive-text">Você quer namorar comigo?</p>
             <div class="buttons">
                 <button class="btn btn-yes" onclick="acceptProposal()">
                     Sim💖
                 </button>
-                <button class="btn btn-no" id="noButton" onclick="moveNoButton()" onclick="tocarMusica(1)">
+                <button class="btn btn-yes" onclick="tocarMusica(0)">
+                </button>
+                <button class="btn btn-no" id="noButton" onclick="moveNoButton()">
                     Não😅
+                </button>
+                <button class="btn btn-no" id="noButton" onclick="tocarMusica(1)">
                 </button>
             </div>
         </div>
@@ -264,8 +268,8 @@
             const buttonHeight = 50; // Altura aproximada do botão
             
             // Aumentar a distância a cada tentativa
-            const baseDistance = 80 + (noButtonMoved * 30);
-            const maxDistance = Math.min(baseDistance, 200);
+            const baseDistance = 30 + (noButtonMoved * 10);
+            const maxDistance = Math.min(baseDistance, 100);
             
             // Gerar ângulo aleatório
             const angle = Math.random() * 2 * Math.PI;
@@ -312,7 +316,7 @@
             
             // Fazer o botão "Sim" crescer um pouco a cada tentativa
             const yesButton = document.querySelector('.btn-yes');
-            const currentScale = 1 + (noButtonMoved * 0.1);
+            const currentScale = 1 + (noButtonMoved * 0.2);
             yesButton.style.transform = `scale(${currentScale})`;
         }
         
