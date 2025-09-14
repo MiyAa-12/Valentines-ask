@@ -201,23 +201,26 @@
     </style>
 </head>
 <body>
-    <div class="musicas-sera">
-            <audio src="./src/mp3/serault.mp3" type="audio/mp3" id="musica0">
-            </audio>
-            <audio src="./src/mp3/uhuh.mp3" type="audio/mp3" id="musica1">
-            </audio>
+    <!-- Músicas -->
+    <audio id="musica0" preload="auto">
+        <source src="./src/mp3/serault.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="musica1" preload="auto">
+        <source src="./src/mp3/uhuh.mp3" type="audio/mpeg">
+    </audio>
+    
     <!-- Corações flutuantes -->
     <div class="heart">💖</div>
     <div class="heart">💕</div>
     <div class="heart">💗</div>
-    <div class="heart">💝</div>
+    <div class="heart">💓</div>
     <div class="heart">💘</div>
     
     <div class="container">
         <div id="question-section">
             <h1 class="title">lolotuz💕</h1>
             <p class="subtitle">Tenho uma pergunta muito especial...</p>
-            <div class="emoji">🤓</div>
+            <div class="emoji">🤔</div>
             <p class="question responsive-text">Você quer namorar comigo?</p>
             <div class="buttons">
                 <button class="btn btn-yes" onclick="acceptProposal()">
@@ -245,9 +248,31 @@
         let noButtonMoved = 0;
         const noButton = document.getElementById('noButton');
         
+        function tocarMusica(indice) {
+            pausarTodas();
+            const musica = document.getElementById('musica' + indice);
+            if (musica) {
+                musica.currentTime = 0; // Reinicia a música
+                musica.play().catch(error => {
+                    console.log('Erro ao reproduzir áudio:', error);
+                });
+            }
+        }
+
+        function pausarTodas() {
+            for (let i = 0; i < 2; i++) {
+                const musica = document.getElementById('musica' + i);
+                if (musica) {
+                    musica.pause();
+                    musica.currentTime = 0;
+                }
+            }
+        }
+        
         function moveNoButton() {
             noButtonMoved++;
-
+            
+            // Toca o som "uhuh" quando clica em "Não"
             tocarMusica(1);
             
             // Na primeira vez, definir posição absoluta
@@ -317,7 +342,7 @@
         }
         
         function acceptProposal() {
-
+            // Toca o som "serault" quando clica em "Sim"
             tocarMusica(0);
             
             document.getElementById('question-section').style.display = 'none';
@@ -346,47 +371,19 @@
             }
         }
         
-        function tocarMusica(indice) {
-            pausarTodas();
-            var musica = document.getElementById('musica' + indice);
-            musica.play();
-        }
-
-        function pausarTodas() {
-            for (var i = 0; i < 2; i++) {
-                var musica = document.getElementById('musica' + i);
-                musica.pause();
-            }
-        }
-                
-                // Adicionar um som de "confete" no final
-                setTimeout(() => {
-                    const confettiOscillator = audioContext.createOscillator();
-                    const confettiGain = audioContext.createGain();
-                    
-                    confettiOscillator.connect(confettiGain);
-                    confettiGain.connect(audioContext.destination);
-                    
-                    confettiOscillator.frequency.setValueAtTime(1000, audioContext.currentTime);
-                    confettiOscillator.frequency.exponentialRampToValueAtTime(2000, audioContext.currentTime + 0.1);
-                    confettiOscillator.type = 'square';
-                    
-                    confettiGain.gain.setValueAtTime(0.1, audioContext.currentTime);
-                    confettiGain.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.15);
-                    
-                    confettiOscillator.start(audioContext.currentTime);
-                    confettiOscillator.stop(audioContext.currentTime + 0.15);
-                }, 700);
-                
-            } catch (error) {
-                console.log('Som de celebração não disponível');
-            }
-        }
-        
         // Adicionar movimento suave aos corações
         document.querySelectorAll('.heart').forEach((heart, index) => {
             heart.style.animationDelay = index * 0.5 + 's';
         });
+
+        // Habilitar reprodução automática de áudio após interação do usuário
+        document.body.addEventListener('click', function enableAudio() {
+            const audios = document.querySelectorAll('audio');
+            audios.forEach(audio => {
+                audio.load();
+            });
+            document.body.removeEventListener('click', enableAudio);
+        }, { once: true });
     </script>
 </body>
 </html>
