@@ -220,7 +220,7 @@
             <div class="emoji">🥰</div>
             <p class="question responsive-text">Você quer namorar comigo?</p>
             <div class="buttons">
-                <button class="btn btn-yes" onclick="acceptProposal()" onclick="tocarMusica(0)">
+                <button class="btn btn-yes" onclick="acceptProposal()">
                     Sim💖
                 </button>
                 <button class="btn btn-no" id="noButton" onclick="moveNoButton()" onclick="tocarMusica(1)">
@@ -247,9 +247,8 @@
         
         function moveNoButton() {
             noButtonMoved++;
-            
-            // Tocar som de erro
-            playErrorSound();
+
+            onclick="tocarMusica(1);
             
             // Na primeira vez, definir posição absoluta
             if (noButtonMoved === 1) {
@@ -318,8 +317,8 @@
         }
         
         function acceptProposal() {
-            // Tocar som de celebração YAAY
-            playCelebrationSound();
+            // Tocar som de celebração
+            onclick="tocarMusica(0);
             
             document.getElementById('question-section').style.display = 'none';
             document.getElementById('celebration-section').style.display = 'block';
