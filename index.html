@@ -251,8 +251,6 @@
         
         function moveNoButton() {
             noButtonMoved++;
-
-            onclick="tocarMusica(1);
             
             // Na primeira vez, definir posição absoluta
             if (noButtonMoved === 1) {
@@ -268,8 +266,8 @@
             const buttonHeight = 50; // Altura aproximada do botão
             
             // Aumentar a distância a cada tentativa
-            const baseDistance = 30 + (noButtonMoved * 10);
-            const maxDistance = Math.min(baseDistance, 100);
+            const baseDistance = 80 + (noButtonMoved * 30);
+            const maxDistance = Math.min(baseDistance, 200);
             
             // Gerar ângulo aleatório
             const angle = Math.random() * 2 * Math.PI;
@@ -321,8 +319,6 @@
         }
         
         function acceptProposal() {
-            // Tocar som de celebração
-            onclick="tocarMusica(0);
             
             document.getElementById('question-section').style.display = 'none';
             document.getElementById('celebration-section').style.display = 'block';
