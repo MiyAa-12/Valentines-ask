@@ -248,7 +248,7 @@
         function moveNoButton() {
             noButtonMoved++;
 
-            playErrorSound();
+            tocarMusica(1);
             
             // Na primeira vez, definir posição absoluta
             if (noButtonMoved === 1) {
@@ -264,12 +264,12 @@
             const buttonHeight = 50; // Altura aproximada do botão
             
             // Aumentar a distância a cada tentativa
-            const baseDistance = 30 + (noButtonMoved * 10);
+            const baseDistance = 80 + (noButtonMoved * 30);
             const maxDistance = Math.min(baseDistance, 200);
             
             // Gerar ângulo aleatório
             const angle = Math.random() * 2 * Math.PI;
-            const distance = Math.random() * maxDistance + 30;
+            const distance = Math.random() * maxDistance + 50;
             
             // Calcular nova posição baseada no ângulo e distância
             const centerX = containerRect.width / 2;
@@ -312,11 +312,13 @@
             
             // Fazer o botão "Sim" crescer um pouco a cada tentativa
             const yesButton = document.querySelector('.btn-yes');
-            const currentScale = 1 + (noButtonMoved * 0.2);
+            const currentScale = 1 + (noButtonMoved * 0.1);
             yesButton.style.transform = `scale(${currentScale})`;
         }
         
         function acceptProposal() {
+
+            tocarMusica(0);
             
             document.getElementById('question-section').style.display = 'none';
             document.getElementById('celebration-section').style.display = 'block';
